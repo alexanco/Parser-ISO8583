@@ -24,13 +24,15 @@ O parser vai funcionar de acordo com o aquivo isopackager.xml que se encontra em
 
 Antes de validar o parser é necessário que a ISO informada esteja atendendo os padrões descritos no arquivo isopackager.xml
 
-# Utilizando a ferramenta curl
+# Realizar uma chamada de parser usando a ferramenta curl
 
 ```
 $ curl -X POST http://localhost:8080/api/parser?type=TYPE_PARSE_REQUEST -H "Content-Type: application/json" -d '{"iso":"00501430703400000AC0010016000000000000000022000000000000055597637424100314183900003633392020202020202020200000594330303130303030303030303030303030303030303306976373"}'
+```
 
-Saída:
+# Resultado da chamada utilizando a ferramenta curl
 
+```
 {
     "2":"0000000000000000",
     "3":"220000",
