@@ -2,33 +2,23 @@ package com.alexanco.api.controller;
 
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.alexanco.api.AppException;
+import com.alexanco.api.iso8583.ISO8583ParserManager;
 
-@RestController
-@RequestMapping("/api")
+@Service
 public class ApiController {
 
+    @Autowired
+    private ISO8583ParserManager iso8583ParserManager;
 
-    @Value("${pom.version}")
-	private String versionProject;
-
-	@GetMapping("/version")
-	public ResponseEntity<HashMap<String, String>> versionCheck() {
-		HashMap<String, String> response = new HashMap<String, String>();
-
-		response.put("project", "PARSER-ISO8583");
-		response.put("version", versionProject);
-		return ResponseEntity.ok(response);
-	}
-
-
-    @GetMapping("/parser")
-    public String parser() {
-        return "Hello, World!";
+    public HashMap<Integer, String>  parser(String iso, String type) {
+        try {
+			return iso8583ParserManager.parseISO2HashMap(iso, type);
+		} catch (org.jpos.iso.ISOException e) {
+			throw new AppException("Error to parser ISO:: " + e.getMessage());
+		}
     }
 }
